@@ -131,9 +131,12 @@ func (l *Labels) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implement
 func (l *Labels) UnmarshalJSON(data []byte) error {
-	if err := json.Unmarshal(data, l); err != nil {
+	v := ""
+	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
+	r := strings.Split(v, ",")
+	*l = Labels(r)
 	return nil
 }
 
