@@ -129,6 +129,16 @@ func (l *Labels) MarshalJSON() ([]byte, error) {
 	return json.Marshal(strings.Join(*l, ","))
 }
 
+func delete_empty(s []string) []string {
+	var r []string
+	for _, str := range s {
+		if str != "" {
+			r = append(r, str)
+		}
+	}
+	return r
+}
+
 // UnmarshalJSON implement
 func (l *Labels) UnmarshalJSON(data []byte) error {
 	v := ""
@@ -136,6 +146,7 @@ func (l *Labels) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	r := strings.Split(v, ",")
+	r = delete_empty(r)
 	if len(r) > 0 {
 		*l = append(*l, r...)
 	}
