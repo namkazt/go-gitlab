@@ -135,8 +135,7 @@ func (l *Labels) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
-	r := strings.Split(v, ",")
-	l = &Labels{r...}
+	*l = append(*l, strings.Split(v, ",")...)
 	return nil
 }
 
