@@ -129,6 +129,14 @@ func (l *Labels) MarshalJSON() ([]byte, error) {
 	return json.Marshal(strings.Join(*l, ","))
 }
 
+// UnmarshalJSON implement
+func (l *Labels) UnmarshalJSON(data []byte) error {
+	if err := json.Unmarshal(data, l); err != nil {
+		return err
+	}
+	return nil
+}
+
 // EncodeValues implements the query.EncodeValues interface
 func (l *Labels) EncodeValues(key string, v *url.Values) error {
 	v.Set(key, strings.Join(*l, ","))
