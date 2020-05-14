@@ -143,7 +143,16 @@ func delete_empty(s []string) []string {
 func (l *Labels) UnmarshalJSON(data []byte) error {
 	v := ""
 	if err := json.Unmarshal(data, &v); err != nil {
-		return err
+		// then it must be array
+		varr := []string{}
+		if err := json.Unmarshal(data, &varr); err != nil {
+			return err
+		}
+		varr = delete_empty(varr)
+		if len(varr) > 0 {
+			*l = append(*l, varr...)
+		}
+		return nil
 	}
 	r := strings.Split(v, ",")
 	r = delete_empty(r)
